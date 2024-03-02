@@ -13,11 +13,11 @@ else:
 
 client = OpenAI(api_key = API_KEY)
 #OpenAI.api_key = "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"
-numOfCards = 10
+numOfCards = "10"
 subject = "English"
 
 completion = client.chat.completions.create(
-  model="gpt-4.0",
+  model="gpt-4",
   messages=[
     {"role": "system", "content": "You are a professor, skilled in explaining a vast amount of different school subjects"},
     {"role": "user", "content": "Generate" + numOfCards + "flash cards to help me study for"+ subject + " and organize the front and back in a JSON format"}
