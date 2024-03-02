@@ -2,14 +2,19 @@
 import os
 import random
 import discord
+import logging
 from dotenv import load_dotenv
 
+#TODO: set up logging if needed with: discord.utils.setup_logging()
+
+#GET TOKEN AND SERVER NAME FROM ENV
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
-
 client = discord.Client(intents = discord.Intents.all())
 
+
+#CLIENT EVENTS
 @client.event
 async def on_ready():
     guild = discord.utils.find(lambda g: g.name == GUILD, client.guilds)
