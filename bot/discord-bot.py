@@ -2,14 +2,19 @@
 import os
 import random
 import discord
+import logging
 from dotenv import load_dotenv
 
+#TODO: set up logging if needed with: discord.utils.setup_logging()
+
+#GET TOKEN AND SERVER NAME FROM ENV
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
-
 client = discord.Client(intents = discord.Intents.all())
 
+
+#CLIENT EVENTS
 @client.event
 async def on_ready():
     guild = discord.utils.find(lambda g: g.name == GUILD, client.guilds)
@@ -32,15 +37,12 @@ async def on_message(message):
     print(f'Message from {message.author}: {message.content}')
 
 
-    corey_titles = [
-        'That\'s Lord Emperor to you!',
-        'May his Lordship be blessed eternally',
-        'Praise be to the Lord Emperor'
-    ]
+    corey_titles = (f'Hello ' + str(message.author) + '! What do you need help with?')
     
-    if "corey" in message.content.lower():
+    
+    if "<@1213544417340956732>" in message.content.lower():
         response = random.choice(corey_titles)
-        await message.channel.send(response)
+        await message.channel.send (corey_titles)
     
 
 
