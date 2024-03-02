@@ -29,16 +29,19 @@ async def on_member_join(member):
 async def on_message(message):
     if message.author == client.user:
         return
+    print(f'Message from {message.author}: {message.content}')
+
 
     corey_titles = [
         'That\'s Lord Emperor to you!',
         'May his Lordship be blessed eternally',
         'Praise be to the Lord Emperor'
     ]
-
+    
     if "corey" in message.content.lower():
         response = random.choice(corey_titles)
         await message.channel.send(response)
+    
 
 
 
