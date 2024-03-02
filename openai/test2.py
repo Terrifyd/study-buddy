@@ -14,6 +14,7 @@ else:
 client = OpenAI(api_key = API_KEY)
 #OpenAI.api_key = "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"
 numOfCards = 10
+subject = "English"
 
 completion = client.chat.completions.create(
   model="gpt-4.0",
