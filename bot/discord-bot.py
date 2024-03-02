@@ -3,6 +3,7 @@ import os
 import random
 import discord
 import logging
+from discord.ext import commands
 from dotenv import load_dotenv
 
 #TODO: set up logging if needed with: discord.utils.setup_logging()
@@ -11,8 +12,9 @@ from dotenv import load_dotenv
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
-client = discord.Client(intents = discord.Intents.all())
-
+intents = discord.Intents.all()
+client = discord.Client(intents = intents)
+bot = commands.Bot(command_prefix='?', intents=intents)
 
 #CLIENT EVENTS
 @client.event
@@ -43,8 +45,12 @@ async def on_message(message):
     if "<@1213544417340956732>" in message.content.lower():
         response = random.choice(corey_titles)
         await message.channel.send (corey_titles)
-    
+
+@bot.command()
+async def test(ctx, arg):
+    await ctx.send(arg)
 
 
 
-client.run(TOKEN)
+#client.run(TOKEN)
+bot.run(TOKEN)
