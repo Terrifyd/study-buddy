@@ -20,7 +20,7 @@ completion = client.chat.completions.create(
   model="gpt-4",
   messages=[
     {"role": "system", "content": "You are a professor, skilled in explaining a vast amount of different school subjects"},
-    {"role": "user", "content": "Generate" + numOfCards + "flash cards to help me study for"+ subject + " and organize the front and back in a JSON format"}
+    {"role": "user", "content": "Generate " + numOfCards + " flash cards to help me study for "+ subject + " and organize the front and back in a JSON format"}
   ]
 )
 
