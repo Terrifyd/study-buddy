@@ -32,15 +32,12 @@ async def on_message(message):
     print(f'Message from {message.author}: {message.content}')
 
 
-    corey_titles = [
-        'That\'s Lord Emperor to you!',
-        'May his Lordship be blessed eternally',
-        'Praise be to the Lord Emperor'
-    ]
+    corey_titles = (f'Hello ' + str(message.author) + '! What do you need help with?')
     
-    if "corey" in message.content.lower():
+    
+    if "<@1213544417340956732>" in message.content.lower():
         response = random.choice(corey_titles)
-        await message.channel.send(response)
+        await message.channel.send (corey_titles)
     
 
 
