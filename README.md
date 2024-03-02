@@ -11,3 +11,8 @@ To set OPENAI_API_KEY in your enviornmental variables
 2. make a .env file and add the line 'OPENAI_API_KEY = {key}'
 3. 'import os' and 'from dotenv import load_dotenv' in the file
 4. in the file run API_KEY = os.getenv('OPENAI_API_KEY')
+
+Need in .env:
+1. DISCORD_TOKEN="{YOUR_DISCORD_BOT_KEY}"
+2. DISCORD_GUILD="{YOUR_SERVER_NAME}"
+3. OPENAI_API_KEY="{YOUR_OPENAI_KEY}"
