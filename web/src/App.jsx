@@ -173,6 +173,8 @@ function App() {
       <div className="bottomtext">
         {feedback}
       </div>
+      <div>By Weasly Clark, Ian Duffy, Corey Mitterer, and Dean Turner</div>
+      <br/>
     </div>
   )
 }
