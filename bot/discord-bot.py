@@ -195,7 +195,7 @@ async def on_reaction_add(reaction,user):
             question_list = ParseJSON.formatKahoot(custom_notes.notesGptCallKahoot(subject, user_topic, "10"))
         else:
             question_list = ParseJSON.formatKahoot(gptCall.gptCallKahoot("10", user_topic))
-        for question in (len(question_list)-1):
+        for question in ((question_list)):
             asked_question = await reaction.message.channel.send(question)
             await asked_question.add_reaction('🟥')
             await asked_question.add_reaction('🟨')
