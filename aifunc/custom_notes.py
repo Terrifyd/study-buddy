@@ -12,7 +12,7 @@ else:
     print("OPENAI_API_KEY:", API_KEY)
 
 
-def notesGptCallFlashcard(notes: str, subject: str, numOfCards: str):
+def notesGptCallFlashcards(notes: str, subject: str, numOfCards: str):
 	client = OpenAI(api_key = API_KEY)
 
 	completion = client.chat.completions.create(
@@ -24,7 +24,7 @@ def notesGptCallFlashcard(notes: str, subject: str, numOfCards: str):
 	  ]
 	)
 
-	return completion.choices[0].message
+	return completion.choices[0].message.content
 
 def notesGptCallKahoot(notes, subject, numOfQuestions):
 	client = OpenAI(api_key = API_KEY)
@@ -38,7 +38,7 @@ def notesGptCallKahoot(notes, subject, numOfQuestions):
 	  ]
 	)
 
-	return completion.choices[0].message
+	return completion.choices[0].message.content
 
 
 """ client = OpenAI(api_key = API_KEY)
