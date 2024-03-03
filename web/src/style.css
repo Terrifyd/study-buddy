@@ -1,10 +1,38 @@
 /* MY CSS HERE */
+
+.content
+{
+ text-align: center;
+}
+
 .bottomtext {
-    position: fixed;
+    /* position: fixed; */
     bottom: 0;
     width: 100%;
     background-color: lightgray;
-    display: flex;
+    /* display: inline-block; */
+    display: flex; 
+    
     justify-content: center;
-    align-items: center;
+    align-items: center; 
   }
+
+.cardtopleft {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* Optional styles for the text */
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 5px;
+}
+
+.cardtopright {
+    position: absolute;
+    top: 0;
+    right: 0;
+    /* Optional styles for the text */
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 5px;
+}

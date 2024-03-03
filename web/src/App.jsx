@@ -28,7 +28,9 @@ function App() {
   const [cards, setCards] = useState("");
   const [reveal, setReveal] = useState(false);
   const [numCards, setNumCards] = useState("5");
-  const [feedback, setFeedback] = useState("Hello! Welcome to stUDy Buddy")
+  const [promtNumCards, setPromptNumCards] = useState(5)
+  const [currCardNum, setCurrCardNum] = useState(0);
+  const [feedback, setFeedback] = useState("Hello! Welcome to stUDy Buddy");
 
   //const numCards = 5; //controls the number of cards generated, make sure this reads as string
 
@@ -37,7 +39,7 @@ function App() {
     console.log("function logged")
 
     setFeedback("Generating " + numCards.toString() + " Flashcards based on your notes (this may take some time)");
-
+    setPromptNumCards(parseInt(numCards, 10))
     const API_Body = {
         "model": "gpt-4",
         "messages": [
@@ -84,11 +86,40 @@ function App() {
     }
   }
 
+  function prevCard() {
+    let curr = currCardNum - 1;
+    if (curr >= 0 & curr < promtNumCards) {
+      setCurrCardNum(curr);
+    }
+
+    else {
+      setFeedback("You are on the first card, there are no previous cards.")
+    }
+  }
+
+  function nextCard() {
+    let curr = currCardNum + 1;
+    if (curr >= 0 & curr < promtNumCards) {
+      setCurrCardNum(curr);
+    }
+
+    else {
+      setFeedback("You are on the last card, there is no next card.")
+    }
+  }
+
+
+
   //Parse(cards)
   //console.log(notes)
   //console.log(apiKey)
+  // ~~~~~~~~ HTML STARTS HERE ~~~~~~~~
   return (
-    <div>
+    <div className='content'>
+      <div>Number of Cards: {numCards}</div>
+      <div>Prompt Number of Cards: {promtNumCards}</div>
+      <div>Current Card Num: {currCardNum}</div>
+      <div>Reveal: {reveal}</div>
       <div>
         <textarea 
           onChange={(e) => setNotes(e.target.value)}
@@ -100,6 +131,8 @@ function App() {
       <div>
         <button onClick={callOpenAIAPI}>Get Flashcards</button>
         <button onClick={flipCard}>Reveal Answer</button>
+        <button onClick={prevCard}>Previous Card</button>
+        <button onClick={nextCard}>Next Card</button>
       </div>
       <div>
         <input 
@@ -107,6 +140,7 @@ function App() {
           value="5" 
           name="numCards" 
           onChange={(e) => setNumCards(e.target.value)} 
+          defaultChecked 
         /> 5
         <input 
           type="radio" 
@@ -119,7 +153,6 @@ function App() {
           value="15" 
           name="numCards" 
           onChange={(e) => setNumCards(e.target.value)}
-          defaultChecked 
         /> 15
       </div>
       <div
@@ -130,9 +163,10 @@ function App() {
           border: '1px solid black', 
           height: '300px', 
           width: '550px',
+          position: 'relative',
         }}
       >
-        {cards !== "" ? <p>{DisplayCards(cards, 0, reveal)} </p> : null}
+        {cards !== "" ? DisplayCards(cards, currCardNum, reveal) : null}
       </div>
 
       <div className="bottomtext">

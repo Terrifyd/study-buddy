@@ -35,6 +35,7 @@ h1 {
   line-height: 1.1;
 }
 
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -54,6 +55,8 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+
+/* MY CSS HERE */
 bottomtext {
   position: 'fixed';
   bottom: '0';
@@ -62,7 +65,6 @@ bottomtext {
   display: 'flex';
   /* justifyContent: 'center';
   alignItems: 'center'; */
-
 }
 
 @media (prefers-color-scheme: light) {
