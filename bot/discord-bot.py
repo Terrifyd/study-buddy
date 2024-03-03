@@ -15,8 +15,10 @@ GUILD = os.getenv('DISCORD_GUILD')
 client = discord.Client(intents = discord.Intents.all())
 global subject
 global txtFileRead
+global customNotes
 subject = ""
 txtFileRead = ""
+customNotes = False
 
 @client.event
 async def on_ready():
@@ -130,6 +132,8 @@ async def on_reaction_add(reaction,user):
         await sent_message.add_reaction('3️⃣')
     if str(reaction.emoji) == '5️⃣':
         await reaction.message.channel.send("Creating 5 notecards please be patient...")
+        print(f'Subject Value: {subject}')
+        print(f'customNotes Value: {customNotes}')
         if customNotes:
             notecard_list = ParseJSON.formatFlashcard((custom_notes.gptCallFlashcards(subject, user_topic, "5")))
         else:
