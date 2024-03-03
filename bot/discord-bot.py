@@ -1,8 +1,10 @@
 # bot.py
 import os
 import random
+from discord.ext import commands
 import discord
 import logging
+from discord.ext import commands
 from dotenv import load_dotenv
 
 #TODO: set up logging if needed with: discord.utils.setup_logging()
@@ -11,8 +13,9 @@ from dotenv import load_dotenv
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
-client = discord.Client(intents = discord.Intents.all())
-
+intents = discord.Intents.all()
+client = discord.Client(intents = intents)
+bot = commands.Bot(command_prefix='?', intents=intents)
 
 #CLIENT EVENTS
 @client.event
@@ -34,12 +37,8 @@ async def on_member_join(member):
 async def on_message(message):
     if message.author == client.user:
         return
-    print(f'Message from {message.author}: {message.content}')
+    print(f'Message from {message.author}: {message.content}')    
 
-
-    corey_titles = (f'Hello ' + str(message.author) + '! What do you need help with?')
-    
-    
     if "<@1213544417340956732>" in message.content.lower():
         response = random.choice(corey_titles)
         await message.channel.send (corey_titles)
@@ -47,4 +46,5 @@ async def on_message(message):
 
 
 
-client.run(TOKEN)
+#client.run(TOKEN)
+bot.run(TOKEN)
