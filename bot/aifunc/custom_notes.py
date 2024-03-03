@@ -14,6 +14,8 @@ notesGptCallFlashcards:
         Returns: Response of the GPT-4 in the format of a JSON
 '''
 def notesGptCallFlashcards(notes: str, subject: str, numOfCards: str):
+	'''cardFormat = [ {"id": <card number>, "front": "<front of the card>", "back": "<back of the card>"}, ...]'''
+
 	# Get the value of OPENAI_API_KEY
 	load_dotenv()
 	API_KEY = os.getenv('OPENAI_API_KEY')
@@ -27,7 +29,7 @@ def notesGptCallFlashcards(notes: str, subject: str, numOfCards: str):
           model="gpt-4",
 	  messages=[
 	    {"role": "system", "content": "You are a professor, skilled in explaining a vast amount of different school subjects"},
-	    {"role": "user", "content": "Generate " + numOfCards + " flash cards based on the provided text deliminated by triple backticks and organize the front and back in a single JSON format with the card number, the front being a question, and the back being the answer: ```" + 
+	    {"role": "user", "content": "Generate " + numOfCards + ''' flash cards based on the provided text deliminated by triple backticks and organize the front and back in a single JSON format delaminated by the square braces: [ {"id": <card number>, "front": "<front of the card>", "back": "<back of the card>"}, ...]. ```''' + 
 	    notes + "```."}
 	  ]
 	)

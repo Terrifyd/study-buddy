@@ -2,6 +2,7 @@
 import os
 import random
 import discord
+import asyncio
 import json
 from dotenv import load_dotenv
 from aifunc import ParseJSON, gptCall, custom_notes
@@ -97,20 +98,47 @@ async def on_reaction_add(reaction,user):
     if str(reaction.emoji) == '5️⃣':
         await reaction.message.channel.send("Creating  5 notecards please be patient...")
         await reaction.message.channel.send((gptCall.gptCallFlashcards("5",subject)))
-        await reaction.message.channel.send(ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("5",subject)))
+        await reaction.message.channel.send(ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("5",subject)["content"]))
     elif str(reaction.emoji) == '1️⃣':
         await reaction.message.channel.send("Creating 10 notecards please be patient...")
-        await reaction.message.channel.send(ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("10",subject)))
+        await reaction.message.channel.send(ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("10",subject)["content"]))
     elif str(reaction.emoji) == '2️⃣':
         await reaction.message.channel.send("Creating 20 notecards please be patient...")
-        await reaction.message.channel.send(ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("20",subject)))
+        await reaction.message.channel.send(ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("20",subject)["content"]))
     elif str(reaction.emoji) == '3️⃣':
         await reaction.message.channel.send("Creating 30 notecards please be patient...")
         await reaction.message.channel.send(ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("30",subject)))
-#  elif str(reaction.emoji) == "🎮"
+    elif str(reaction.emoji) == "🎮":
+        await start_game(reaction.message)
     elif str(reaction.emoji) =="🛑":
         await reaction.message.channel.send("Okay Im always available if you ever need me!")
         return
+
+async def start_game(message):
+    # Send a message to prompt players to join
+    join_message = await message.channel.send(" @everyone React with ✅ to join the game!")
+    await join_message.add_reaction('✅')
+
+    # Wait for players to join
+    def check(reaction, user):
+        return str(reaction.emoji) == '✅' and reaction.message == join_message and user != client.user
+
+    players = []
+    while True:
+        try:
+            reaction, user = await client.wait_for('reaction_add', timeout=10.0, check=check)
+            players.append(user)
+        except asyncio.TimeoutError:
+            break
+    
+    if len(players) < 2:
+        await message.channel.send("Not enough players to start the game.")
+        return
+    player_names = ', '.join([player.name for player in players])
+    await message.channel.send(f"Players in the game: {player_names}")
+    await ask_question(message)
+
+
 
 
     
