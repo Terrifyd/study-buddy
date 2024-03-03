@@ -2,6 +2,7 @@
 import os
 import random
 import discord
+import json
 from dotenv import load_dotenv
 from aifunc import ParseJSON, gptCall, custom_notes
 
@@ -54,9 +55,12 @@ async def on_message(message):
                 # Read the content of the text file
                 file_content = await file.read()
 
-                # Process the file content (you can customize this part)
-                # In this example, let's just send the content back to the channel
-                subject = f"{file_content.decode('utf-8')}"
+                # Process the file content as a string
+                subject = file_content.decode('utf-8')
+                
+                # Print or log the string content for inspection
+                print("File Content:", subject)
+
                 await message.channel.send("Got it! Looks good to me!")
                 response = ('How many notecards would you like to be made?\n 5️⃣ for 5 \n 1️⃣ for 10 \n 2️⃣ for 20 \n 3️⃣ for 30')
                 sent_message = await message.channel.send(response)
@@ -67,7 +71,7 @@ async def on_message(message):
             except discord.HTTPException as e:
                 await message.channel.send(f"Error reading the file: {e}")
         else:
-            await message.channel.send("Please attach a text (.txt) file.")
+            await message.channel.send("Please attach a text file.")
 
 
 #TODO: turn this into a switch statement
