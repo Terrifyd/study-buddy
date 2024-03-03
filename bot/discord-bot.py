@@ -74,13 +74,13 @@ async def on_reaction_add(reaction,user):
             if user == client.user:
                     return
             if str(reaction.emoji) == '5️⃣':
-                gptCall.gptCallFlashcards("5",subject)
+                await reaction.message.channel.send(gptCall.gptCallFlashcards("5",subject))
             elif str(reaction.emoji) == '1️⃣':
-                gptCall.gptCallFlashcards("10",subject)
+                await reaction.message.channel.send(gptCall.gptCallFlashcards("10",subject))
             elif str(reaction.emoji) == '2️⃣':
-                gptCall.gptCallFlashcards("20",subject)
+                await reaction.message.channel.send(gptCall.gptCallFlashcards("20",subject))
             elif str(reaction.emoji) == '3️⃣':
-                gptCall.gptCallFlashcards("30",subject)
+                await reaction.message.channel.send(gptCall.gptCallFlashcards("30",subject))
         except asyncio.TimeoutError:
             await reaction.message.channel.send('You took too long to specify the subject!')
   #  elif str(reaction.emoji) == "🎮"
