@@ -53,7 +53,7 @@ def gptCallKahoot(numOfQuestions: str, subject: str):
 	  model="gpt-4",
 	  messages=[
 	    {"role": "system", "content": "You are a professor, skilled in explaining a vast amount of different school subjects"},
-	    {"role": "user", "content": "Generate "+ numOfQuestions +" four answer multiple choice question about "+ subject +" and organize the four answers in a single JSON format with the question, the answer, and the three fake answers"}
+	    {"role": "user", "content": "Generate "+ numOfQuestions +" four answer multiple choice question about "+ subject +''' and organize the four answers in a single JSON format deliminated by the square brackets: [{"question": "<question>", "answer": "<correct answer to the question>", "fake_answers": ["<fake 1>", "<fake 2>", "<fake 3>"]}, ...], with the question, the answer, and the three fake answers'''}
 	  ]
 	)
 	return completion.choices[0].message.content

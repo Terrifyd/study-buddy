@@ -15,7 +15,6 @@ notesGptCallFlashcards:
 '''
 def notesGptCallFlashcards(notes: str, subject: str, numOfCards: str):
 	'''cardFormat = [ {"id": <card number>, "front": "<front of the card>", "back": "<back of the card>"}, ...]'''
-
 	# Get the value of OPENAI_API_KEY
 	load_dotenv()
 	API_KEY = os.getenv('OPENAI_API_KEY')
@@ -48,6 +47,7 @@ notesGptCallKahoot:
         Returns: Response of the GPT-4 in the format of a JSON
 '''
 def notesGptCallKahoot(notes, subject, numOfQuestions):
+	'''KahootFormat = [{"question": "<question>", "answer": "<correct answer to the question>", "fake_answers": ["<fake 1>", "<fake 2>", "<fake 3>"]}, ...]'''
 	# Get the value of OPENAI_API_KEY
 	load_dotenv()
 	API_KEY = os.getenv('OPENAI_API_KEY')
@@ -61,7 +61,7 @@ def notesGptCallKahoot(notes, subject, numOfQuestions):
 	  model="gpt-4",
 	  messages=[
 	    {"role": "system", "content": "You are a professor, skilled in explaining a vast amount of different school subjects"},
-	    {"role": "user", "content": "Generate "+ numOfQuestions +" four answer multiple choice questions about "+ subject +" based on the provided text deliminated by the triple backticks and organize the four answers in a single JSON format with the question, the answer, and the three fake answers:```"+
+	    {"role": "user", "content": "Generate "+ numOfQuestions +" four answer multiple choice questions about "+ subject +''' based on the provided text deliminated by the triple backticks and organize the four answers in a single JSON format deliminated by the square braces: [{"question": "<question>", "answer": "<correct answer to the question>", "fake_answers": ["<fake 1>", "<fake 2>", "<fake 3>"]}, ...], with the question, the answer, and the three fake answers:```'''+ 
 	    notes +"```."}
 	  ]
 	)
