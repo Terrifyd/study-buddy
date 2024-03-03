@@ -1,0 +1,99 @@
+/* MY CSS HERE */
+
+.content
+{
+ text-align: center;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+}
+
+.roof {
+    height: 100px;
+    width: 100%;
+    background-color: #faea98;
+    display: flex;
+    border-radius: 10px;
+}
+
+.title {
+    margin-right: auto;
+    position: relative;
+    top: 0;
+    left: 0;
+    font-size: xx-large;
+    font-style: italic;
+    padding-right: 480px;
+    color: #124979;
+}
+
+.buddy {
+    height: 100px;
+    width: 100px;
+    object-fit: contain;
+    padding-bottom: 150px;
+    padding-left: 200px;
+    border-radius: 10px;
+
+}
+
+.buttontop {
+    margin-left: auto; 
+    width: 250px;
+    background-color: #124979;
+    color: white;
+}
+
+.buttonbottom {
+    width: 30%;
+    background-color: #124979;
+    color: white;
+}
+.bottomtext {
+    position: fixed;
+
+    bottom: 0;
+    width: 100%;
+    height: 8%;
+    background-color: lightgray;
+    /* display: inline-block; */
+    left: 0;
+    right: 0;
+    display: flex; 
+
+    justify-content: center;
+    align-items: center; 
+  }
+  .card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 10px; /* Add this line */
+    height: 300px;
+    width: 925px;
+    position: relative;
+    background-color: white;
+  }
+
+.cardtopleft {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 10px;
+    background-color: #faea98;
+    color: black;
+    padding: 5px;
+}
+
+.cardtopright {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 10px;
+    background-color: #faea98;
+    color: black;
+    padding: 5px;
+}
