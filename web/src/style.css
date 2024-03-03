@@ -10,14 +10,25 @@
     flex-direction: column;
 }
 
+.buttontop {
+    margin-left: auto; 
+    width: 250px;
+}
+
+.buttonbottom {
+    width: 30%;
+}
 .bottomtext {
-    /* position: fixed; */
+    position: fixed;
+
     bottom: 0;
     width: 100%;
     background-color: lightgray;
     /* display: inline-block; */
+    left: 0;
+    right: 0;
     display: flex; 
-    
+
     justify-content: center;
     align-items: center; 
   }

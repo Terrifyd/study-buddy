@@ -32,6 +32,7 @@ function App() {
   const [promtNumCards, setPromptNumCards] = useState(5)
   const [currCardNum, setCurrCardNum] = useState(0);
   const [feedback, setFeedback] = useState("Hello! Welcome to stUDy Buddy");
+  const [isCards, setIsCards] = useState(false);
 
   //const numCards = 5; //controls the number of cards generated, make sure this reads as string
 
@@ -79,6 +80,7 @@ function App() {
       setCards(results) //stores the json in cards
     })
 
+    setIsCards(true);
     setFeedback("Here are your card, happy studying!");
   }
 
@@ -114,6 +116,15 @@ function App() {
     }
   }
 
+  /* function toggleButton() {
+    console.log("toggle");
+    let button1 = document.getElementById("card button 1")
+    let button2 = document.getElementById("card button 2")
+    let button3 = document.getElementById("card button 3")
+    button1.disabled = !isCards
+    button2.disabled = !isCards
+    button3.disabled = !isCards
+} */
 
 
   //Parse(cards)
@@ -131,7 +142,7 @@ function App() {
           {NumCardsButton(setNumCards)}
           <button 
               onClick={callOpenAIAPI}
-              style={{marginLeft: 'auto', width: "250px"}}
+              className='buttontop'
             >
               Get Flashcards
             </button>
@@ -143,13 +154,15 @@ function App() {
           rows={10}
         />
       </div>
+      <br/>
+      <br/>
       <div>
-        <button onClick={flipCard}>Reveal Answer</button>
-        <button onClick={prevCard}>Previous Card</button>
-        <button onClick={nextCard}>Next Card</button>
+        <button onClick={prevCard} className='buttonbottom' disabled={!isCards}>Previous Card</button>
+        <button onClick={flipCard} className='buttonbottom' disabled={!isCards}>Reveal Answer</button>
+        <button onClick={nextCard} className='buttonbottom' disabled={!isCards}>Next Card</button>
       </div>
       <div className='card'>
-        {cards !== "" ? DisplayCards(cards, currCardNum, reveal, promtNumCards) : null}
+        {isCards ? DisplayCards(cards, currCardNum, reveal, promtNumCards) : null}
       </div>
 
       <div className="bottomtext">
