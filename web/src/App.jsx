@@ -6,6 +6,7 @@ import './style.css'
 import { OPENAI_API_KEY } from './Token' // MUST CREATE A FILE CALLED "Token.jsx" AND EXPORT OPEN_API_KEY VAR
 import { Parse } from "./components/Parse"
 import { DisplayCards } from "./components/DisplayCards"
+import { NumCardsButton } from './components/NumCardsButtons'
 // import OpenAI from "openai";
 
 /* const openai = new OpenAI();
@@ -37,6 +38,11 @@ function App() {
 
   async function callOpenAIAPI() {
     console.log("function logged")
+
+    if (notes === "") {
+      setFeedback("You need to input notes to generate flashcards.")
+      return
+    }
 
     setFeedback("Generating " + numCards.toString() + " Flashcards based on your notes (this may take some time)");
     setPromptNumCards(parseInt(numCards, 10))
@@ -120,7 +126,16 @@ function App() {
       <div>Prompt Number of Cards: {promtNumCards}</div>
       <div>Current Card Num: {currCardNum}</div>
       <div>Reveal: {reveal}</div>
-      <div>
+      <div className='input'>
+        <div style={{display: 'flex'}}>
+          {NumCardsButton(setNumCards)}
+          <button 
+              onClick={callOpenAIAPI}
+              style={{marginLeft: 'auto', width: "250px"}}
+            >
+              Get Flashcards
+            </button>
+        </div>
         <textarea 
           onChange={(e) => setNotes(e.target.value)}
           placeholder='Paste your notes here!'
@@ -129,44 +144,12 @@ function App() {
         />
       </div>
       <div>
-        <button onClick={callOpenAIAPI}>Get Flashcards</button>
         <button onClick={flipCard}>Reveal Answer</button>
         <button onClick={prevCard}>Previous Card</button>
         <button onClick={nextCard}>Next Card</button>
       </div>
-      <div>
-        <input 
-          type="radio" 
-          value="5" 
-          name="numCards" 
-          onChange={(e) => setNumCards(e.target.value)} 
-          defaultChecked 
-        /> 5
-        <input 
-          type="radio" 
-          value="10" 
-          name="numCards" 
-          onChange={(e) => setNumCards(e.target.value)} 
-        /> 10
-        <input 
-          type="radio" 
-          value="15" 
-          name="numCards" 
-          onChange={(e) => setNumCards(e.target.value)}
-        /> 15
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          border: '1px solid black', 
-          height: '300px', 
-          width: '550px',
-          position: 'relative',
-        }}
-      >
-        {cards !== "" ? DisplayCards(cards, currCardNum, reveal) : null}
+      <div className='card'>
+        {cards !== "" ? DisplayCards(cards, currCardNum, reveal, promtNumCards) : null}
       </div>
 
       <div className="bottomtext">
