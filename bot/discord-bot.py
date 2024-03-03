@@ -187,7 +187,7 @@ async def start_game(message):
     player_names = ', '.join([player.name for player in players])
     await message.channel.send(f"Players in the game: {player_names}")
     await get_user_prompt(message)
-    await ask_question(message)
+    #await ask_question(message)
 
 
 
