@@ -50,7 +50,7 @@ def formatKahoot(response):
 		fakes.insert(ranNum, answer)
 
 		final.append(f'**{question}**\n1. {fakes[0]}\n2. {fakes[1]}\n3. {fakes[2]}\n4. {fakes[3]}')
-		final.append(f'{ranNum}')
+		final.append(f'{ranNum+1}')
 	return final
 
 '''
