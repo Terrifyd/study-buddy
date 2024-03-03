@@ -7,8 +7,7 @@ def formatFlashcard(response):
 	final = []
 	#check if a list or single dictionary with the list
 	if type(response) is dict:
-		for item in response:
-			response = response[item]
+		response = response.popitem()
 
 	for card in response:
 		front = card["front"]
