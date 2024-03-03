@@ -3,6 +3,7 @@ import os
 import random
 import discord
 from dotenv import load_dotenv
+from aifunc import gptCall, custom_notes
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -53,13 +54,37 @@ async def on_message(message):
 
 @client.event
 async def on_reaction_add(reaction,user):
-    if reaction.me == client.user:
+    if user == client.user:
         return
     if str(reaction.emoji) == '🗒️':
-        conversation_state =="Waiting for Notes"
         response =(f'Send your notes below to get them converted to notecards!\n ')
         sent_message = await reaction.message.channel.send(response)
-        
+    elif str(reaction.emoji) == "📝":
+        response =(f'What subject do you want to cover in the notecards?')
+        await reaction.message.channel.send(response)
+        try:
+            response_message = await client.wait_for('message', check=lambda m: m.author == user and m.channel == reaction.message.channel, timeout=60)
+            subject = response_message.content
+            response = ('How many notecards would you like to be made?\n 5️⃣ for 5 \n 1️⃣ for 10 \n 2️⃣ for 20 \n 3️⃣ for 30')
+            sent_message = await message.channel.send(response)
+            await sent_message.add_reaction('5️⃣')
+            await sent_message.add_reaction('1️⃣')
+            await sent_message.add_reaction('2️⃣')
+            await sent_message.add_reaction('3️⃣')
+            if user == client.user:
+                    return
+            if str(reaction.emoji) == '5️⃣':
+                gptCall.gptCallFlashcards("5",subject)
+            elif str(reaction.emoji) == '1️⃣':
+                gptCall.gptCallFlashcards("10",subject)
+            elif str(reaction.emoji) == '2️⃣':
+                gptCall.gptCallFlashcards("20",subject)
+            elif str(reaction.emoji) == '3️⃣':
+                gptCall.gptCallFlashcards("30",subject)
+        except asyncio.TimeoutError:
+            await reaction.message.channel.send('You took too long to specify the subject!')
+  #  elif str(reaction.emoji) == "🎮"
+
 
     
 
