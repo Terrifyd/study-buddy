@@ -92,16 +92,17 @@ async def on_reaction_add(reaction,user):
         await sent_message.add_reaction('3️⃣')
     if str(reaction.emoji) == '5️⃣':
         await reaction.message.channel.send("Creating  5 notecards please be patient...")
-        await reaction.message.channel.send(gptCall.gptCallFlashcards("5",subject))
+        await reaction.message.channel.send((gptCall.gptCallFlashcards("5",subject)))
+        await reaction.message.channel.send(ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("5",subject)))
     elif str(reaction.emoji) == '1️⃣':
         await reaction.message.channel.send("Creating 10 notecards please be patient...")
-        await reaction.message.channel.send(gptCall.gptCallFlashcards("10",subject))
+        await reaction.message.channel.send(ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("10",subject)))
     elif str(reaction.emoji) == '2️⃣':
         await reaction.message.channel.send("Creating 20 notecards please be patient...")
-        await reaction.message.channel.send(gptCall.gptCallFlashcards("20",subject))
+        await reaction.message.channel.send(ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("20",subject)))
     elif str(reaction.emoji) == '3️⃣':
         await reaction.message.channel.send("Creating 30 notecards please be patient...")
-        await reaction.message.channel.send(gptCall.gptCallFlashcards("30",subject))
+        await reaction.message.channel.send(ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("30",subject)))
 #  elif str(reaction.emoji) == "🎮"
     elif str(reaction.emoji) =="🛑":
         await reaction.message.channel.send("Okay Im always available if you ever need me!")
