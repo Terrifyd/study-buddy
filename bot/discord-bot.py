@@ -13,7 +13,9 @@ GUILD = os.getenv('DISCORD_GUILD')
 
 client = discord.Client(intents = discord.Intents.all())
 global subject
+global txtFileRead
 subject = ""
+txtFileRead = ""
 
 @client.event
 async def on_ready():
@@ -52,7 +54,7 @@ async def on_message(message):
 
         # Check if the file is a text file (you can customize this check)
         if file.filename.endswith('.txt'):
-            if str(discord.Reaction.emoji) == '🗒️':
+            if txtFileRead == 'flashcards':
                 try:
                     # Read the content of the text file
                     file_content = await file.read()
@@ -72,7 +74,8 @@ async def on_message(message):
                     await sent_message.add_reaction('3️⃣')
                 except discord.HTTPException as e:
                     await message.channel.send(f"Error reading the file: {e}")
-            elif str(discord.Reaction.emoji) == '📃':
+            elif txtFileRead == "kahoot":
+                print("got inside kahoot")
                 try:
                     # Read the content of the text file
                     file_content = await file.read()
@@ -98,10 +101,12 @@ async def on_message(message):
 @client.event
 async def on_reaction_add(reaction,user):
     global subject
+    global txtFileRead
     if user == client.user:
         return
     if str(reaction.emoji) == '🗒️':
         response =(f'Send your notes below to get them converted to notecards!\n ')
+        txtFileRead = 'flashcards'
         sent_message = await reaction.message.channel.send(response)
     elif str(reaction.emoji) == '📝':
         response =(f'What subject do you want to cover in the notecards?')
@@ -134,15 +139,22 @@ async def on_reaction_add(reaction,user):
         return
     if str(reaction.emoji) == '📃':
         response =(f'Send your notes below to get them converted to questions!\n')
+        txtFileRead = 'kahoot'
         sent_message = await reaction.message.channel.send(response)
     elif str(reaction.emoji) == '⌨️':
         pass
     if str(reaction.emoji) == '🅰️':
+        await reaction.message.channel.send("Great! Now just send a message with the overall topic you'd like to review")
+        response_message = await client.wait_for('message', check=lambda m: m.author == user and m.channel == reaction.message.channel, timeout=60)
+        user_topic = response_message.content
         await reaction.message.channel.send("Creating 10 questions please be patient...")
-        await reaction.message.channel.send((gptCall.gptCallKahoot("10",subject)))
+        await reaction.message.channel.send((gptCall.notesGptCallKahoot(subject, user_topic, "10")))
     elif str(reaction.emoji) == '🅱️':
+        await reaction.message.channel.send("Great! Now just send a message with the overall topic you'd like to review")
+        response_message = await client.wait_for('message', check=lambda m: m.author == user and m.channel == reaction.message.channel, timeout=60)
+        user_topic = response_message.content
         await reaction.message.channel.send("Creating 20 questions please be patient...")
-        await reaction.message.channel.send((gptCall.gptCallKahoot("20",subject)))
+        await reaction.message.channel.send((gptCall.notesGptCallKahoot(subject, user_topic, "20")))
     if str(reaction.emoji) in '🟥🟨🟩🟦':
         pass
 
