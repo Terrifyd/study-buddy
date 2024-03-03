@@ -7,8 +7,7 @@ def formatFlashcard(response):
 	final = []
 	#check if a list or single dictionary with the list
 	if type(response) is dict:
-		response = response.popitem()
-
+		response = response.popitem()[1]
 	for card in response:
 		front = card["front"]
 		back = card["back"]
@@ -25,5 +24,7 @@ testDict2 = { "notecards": [{"id": 1, "front": "This is the front", "back": "Thi
         {"id": 2, "front": "This is the front again", "back": "This is the back again"}
 ] }
 
-print(formatFlashcard(testDict1))
-print(formatFlashcard(testDict2))
+#print(formatFlashcard(testDict1))
+#print(formatFlashcard(testDict2))
+
+
