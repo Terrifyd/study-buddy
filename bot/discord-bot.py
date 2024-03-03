@@ -3,7 +3,7 @@ import os
 import random
 import discord
 from dotenv import load_dotenv
-from aifunc import gptCall, custom_notes
+from aifunc import ParseJSON, gptCall, custom_notes
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
