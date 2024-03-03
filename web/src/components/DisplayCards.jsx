@@ -15,7 +15,7 @@ export function DisplayCards(cards, selectedCard, revealAnswer, numCards) {
             <div className="cardtopright">
                 {sideCap}
             </div>
-            <p>{cardText}</p>
+            <p style={{fontSize:"xx-large"}}>{cardText}</p>
         </div>
     )
 }

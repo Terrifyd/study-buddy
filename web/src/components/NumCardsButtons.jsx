@@ -1,6 +1,6 @@
 export function NumCardsButton (setNumCards) {
     return (
-        <div>
+        <div style={{color: "white", fontSize: "large"}}> Number of Flashcards:
             <input 
             type="radio" 
             value="5" 

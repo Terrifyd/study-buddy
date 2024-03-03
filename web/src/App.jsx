@@ -31,7 +31,7 @@ function App() {
   const [numCards, setNumCards] = useState("5");
   const [promtNumCards, setPromptNumCards] = useState(5)
   const [currCardNum, setCurrCardNum] = useState(0);
-  const [feedback, setFeedback] = useState("Hello! Welcome to stUDy Buddy");
+  const [feedback, setFeedback] = useState("Hello! Welcome to StudyBuddy");
   const [isCards, setIsCards] = useState(false);
 
   //const numCards = 5; //controls the number of cards generated, make sure this reads as string
@@ -45,7 +45,7 @@ function App() {
       return
     }
 
-    setFeedback("Generating " + numCards.toString() + " Flashcards based on your notes (this may take some time)");
+    setFeedback("Generating " + numCards.toString() + " Flashcards based on your notes (this may take some time)...");
     setPromptNumCards(parseInt(numCards, 10))
     const API_Body = {
         "model": "gpt-4",
@@ -133,10 +133,15 @@ function App() {
   // ~~~~~~~~ HTML STARTS HERE ~~~~~~~~
   return (
     <div className='content'>
-      <div>Number of Cards: {numCards}</div>
+{/*       <div>Number of Cards: {numCards}</div>
       <div>Prompt Number of Cards: {promtNumCards}</div>
       <div>Current Card Num: {currCardNum}</div>
-      <div>Reveal: {reveal}</div>
+      <div>Reveal: {reveal}</div> */}
+      <header className='roof'>
+        <div className='title'>StudyBuddy</div>
+        <img src="..\images\studybuddy.jpg" alt="Logo" className='buddy'></img>
+        </header>
+        <br/>
       <div className='input'>
         <div style={{display: 'flex'}}>
           {NumCardsButton(setNumCards)}
