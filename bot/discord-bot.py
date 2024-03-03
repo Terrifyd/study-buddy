@@ -76,7 +76,6 @@ async def on_message(message):
                 except discord.HTTPException as e:
                     await message.channel.send(f"Error reading the file: {e}")
             elif txtFileRead == "kahoot":
-                print("got inside kahoot")
                 try:
                     # Read the content of the text file
                     file_content = await file.read()
@@ -216,7 +215,10 @@ async def start_game(message):
         await sent_user_prompt.add_reaction('⌨️')
 
     def ask_question(message):
-        pass
+        if customNotes:
+            pass
+        else:
+            pass
 
     def update_scoreboard():
         pass
