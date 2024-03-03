@@ -12,7 +12,7 @@ else:
     print("OPENAI_API_KEY:", API_KEY)
 
 
-def Custom_Notes(notes: str, subject: str, numOfCards: int):
+def Custom_Notes(notes: str, subject: str, numOfCards: str):
     client = OpenAI(api_key = API_KEY)
     
     completion = client.chat.completions.create(
