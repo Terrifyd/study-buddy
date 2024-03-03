@@ -3,7 +3,15 @@ import os
 from dotenv import load_dotenv
 
 
-def gptCallFlashcards(numOfCards, subject):
+'''
+gptCallFlashcards:
+        Purpose: Calls the GPT-4 API with the given subject and number as strings and returns a collection of flashcards.
+        Params:
+                numOfQuestions: Number of Flashcards question user wants generated.
+                subject: Subject the user wants the Flashcards to be made about.
+        Returns: Response of the GPT-4 in the format of a JSON.
+'''
+def gptCallFlashcards(numOfCards: str, subject: str):
 	#Load the environment variables
 	load_dotenv()
 	# Get the value of OPENAI_API_KEY
@@ -24,7 +32,16 @@ def gptCallFlashcards(numOfCards, subject):
 	)
 	return completion.choices[0].message.content
 
-def gptCallKahoot(numOfQuestions, subject):
+
+'''
+gptCallKahoot: 
+	Purpose: Calls the GPT-4 API with the given subject and number as strings and returns number of Kahoot questions.
+	Params:
+		numOfQuestions: Number of Kahoot question user wants generated.
+		subject: Subject the user wants the Kahoot to be made about.
+	Returns: Response of the GPT-4 in the format of a JSON.
+'''
+def gptCallKahoot(numOfQuestions: str, subject: str):
 	load_dotenv()
 	API_KEY = os.getenv("OPENAI_API_KEY")
 	if API_KEY is None:
