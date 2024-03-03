@@ -57,12 +57,14 @@ function App() {
       return data.json();
     }).then((data) => {
       console.log(data);
-      setCards(data.choices[0].message.content) //stores the json in cards
+      let results = Parse(data.choices[0].message.content);
+
+      setCards(results) //stores the json in cards
     })
 
   }
 
-  Parse(cards)
+  //Parse(cards)
   //console.log(notes)
   //console.log(apiKey)
   return (
@@ -77,10 +79,9 @@ function App() {
       </div>
       <div>
         <button onClick={callOpenAIAPI}>Get Flashcards</button>
+        {cards !== "" ? <p>Your cards: {cards[0]["front"]} </p> : null}
       </div>
 
-
-    <div>Cards: {cards}</div>
     </div>
   )
 }

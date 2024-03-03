@@ -36,7 +36,7 @@ export function Parse(input: string) {
           "back": "The Treaty of Paris in 1783 formally ended the war, recognizing the United States as an independent nation and establishing its borders."
         }
       ] `
-    const json_string = Extract_Substring(test_input, "[", "]");
+    const json_string = Extract_Substring(input, "[", "]");
     if (json_string !== null) {
         let output = JSON.parse(json_string);
         //console.log(output)
