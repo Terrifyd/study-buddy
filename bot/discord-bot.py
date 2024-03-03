@@ -103,11 +103,18 @@ async def on_message(message):
 async def on_reaction_add(reaction,user):
     global subject
     global txtFileRead
+    global customNotes
+    customNotes = False
     notecard_list = []
     if user == client.user:
         return
     if str(reaction.emoji) == '🗒️':
+        response =(f'What subject do you want to cover in the notecards?')
+        await reaction.message.channel.send(response)
+        response_message = await client.wait_for('message', check=lambda m: m.author == user and m.channel == reaction.message.channel, timeout=60)
+        user_topic = response_message.content
         response =(f'Send your notes below to get them converted to notecards!\n ')
+        customNotes = True
         txtFileRead = 'flashcards'
         sent_message = await reaction.message.channel.send(response)
     elif str(reaction.emoji) == '📝':
@@ -123,28 +130,40 @@ async def on_reaction_add(reaction,user):
         await sent_message.add_reaction('3️⃣')
     if str(reaction.emoji) == '5️⃣':
         await reaction.message.channel.send("Creating 5 notecards please be patient...")
-        notecard_list = ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("5",subject))
+        if customNotes:
+            notecard_list = ParseJSON.formatFlashcard((custom_notes.gptCallFlashcards(subject, user_topic, "5")))
+        else:
+            notecard_list = ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("5",subject))
         for notecard in notecard_list:
             await reaction.message.channel.send(notecard)
             time.sleep(0.5)
         await reaction.message.channel.send("All done! Please ping me again if you'd need a Study Buddy!")
     elif str(reaction.emoji) == '1️⃣':
         await reaction.message.channel.send("Creating 10 notecards please be patient...")
-        notecard_list = ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("10",subject))
+        if customNotes:
+            notecard_list = ParseJSON.formatFlashcard((custom_notes.gptCallFlashcards(subject, user_topic, "10")))
+        else:
+            notecard_list = ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("10",subject))
         for notecard in notecard_list:
             await reaction.message.channel.send(notecard)
             time.sleep(0.5)
         await reaction.message.channel.send("All done! Please ping me again if you'd need a Study Buddy!")
     elif str(reaction.emoji) == '2️⃣':
         await reaction.message.channel.send("Creating 20 notecards please be patient...")
-        notecard_list = ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("20",subject))
+        if customNotes:
+            notecard_list = ParseJSON.formatFlashcard((custom_notes.gptCallFlashcards(subject, user_topic, "5")))
+        else:
+            notecard_list = ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("20",subject))
         for notecard in notecard_list:
             await reaction.message.channel.send(notecard)
             time.sleep(0.5)
         await reaction.message.channel.send("All done! Please ping me again if you'd need a Study Buddy!")
     elif str(reaction.emoji) == '3️⃣':
         await reaction.message.channel.send("Creating 30 notecards please be patient...")
-        notecard_list = ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("30",subject))
+        if customNotes:
+            notecard_list = ParseJSON.formatFlashcard((custom_notes.gptCallFlashcards(subject, user_topic, "5")))
+        else:
+            notecard_list = ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("30",subject))
         for notecard in notecard_list:
             await reaction.message.channel.send(notecard)
             time.sleep(0.5)
