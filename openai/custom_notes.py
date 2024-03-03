@@ -12,21 +12,33 @@ else:
     print("OPENAI_API_KEY:", API_KEY)
 
 
-def Custom_Notes(notes: str, subject: str, numOfCards: str):
-    client = OpenAI(api_key = API_KEY)
-    
-    completion = client.chat.completions.create(
-        model="gpt-4",
-        messages=[
-            {"role": "system", "content": "You are a professor, skilled in explaining a vast amount of different school subjects"},
-            {"role": "user", 
-            "content": "Generate " + numOfCards + 
-            " flash cards based on the provided text deliminated by triple backticks and organize the front and back in a JSON format with the front being a question and the back being the answer: ```" + 
-            notes + "```."}
-        ]
-    )
+def notesGptCallFlashcard(notes: str, subject: str, numOfCards: str):
+	client = OpenAI(api_key = API_KEY)
 
-    return completion.choices[0].message
+	completion = client.chat.completions.create(
+          model="gpt-4",
+	  messages=[
+	    {"role": "system", "content": "You are a professor, skilled in explaining a vast amount of different school subjects"},
+	    {"role": "user", "content": "Generate " + numOfCards + " flash cards based on the provided text deliminated by triple backticks and organize the front and back in a JSON format with the front being a question and the back being the answer: ```" + 
+	    notes + "```."}
+	  ]
+	)
+
+	return completion.choices[0].message
+
+def notesGptCallKahoot(notes, subject, numOfQuestions):
+	client = OpenAI(api_key = API_KEY)
+
+	completion = client.chat.completions.create(
+	  model="gpt-4",
+	  messages=[
+	    {"role": "system", "content": "You are a professor, skilled in explaining a vast amount of different school subjects"},
+	    {"role": "user", "content": "Generate "+ numOfQuestions +" four answer multiple choice questions about "+ subject +" based on the provided text deliminated by the triple backticks and organize the four answers in a JSON format with the question, the answer, and the three fake answers:```"+
+	    notes +"```."}
+	  ]
+	)
+
+	return completion.choices[0].message
 
 
 """ client = OpenAI(api_key = API_KEY)
