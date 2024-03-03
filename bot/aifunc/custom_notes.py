@@ -2,9 +2,8 @@ from openai import OpenAI
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
-
 # Get the value of OPENAI_API_KEY
+load_dotenv()
 API_KEY = os.getenv('OPENAI_API_KEY')
 if API_KEY is None:
     print("Error: OPENAI_API_KEY is not set.")
@@ -12,6 +11,15 @@ else:
     print("OPENAI_API_KEY:", API_KEY)
 
 
+'''
+notesGptCallFlashcards:
+        Purpose: Calls the GPT-4 API with the given subject, number as strings, and a document of notes, and returns a JSON.
+        Params:
+                numOfCards: Number of Flashcards user wants generated.
+                subject: Subject the user wants the flashcards to be made about.
+		notes: Document of notes the user wants the flashcards to be based off of.
+        Returns: Response of the GPT-4 in the format of a JSON
+'''
 def notesGptCallFlashcards(notes: str, subject: str, numOfCards: str):
 	client = OpenAI(api_key = API_KEY)
 
@@ -26,6 +34,17 @@ def notesGptCallFlashcards(notes: str, subject: str, numOfCards: str):
 
 	return completion.choices[0].message.content
 
+
+
+'''
+notesGptCallKahoot:
+        Purpose: Calls the GPT-4 API with the given subject, number, and a document of notes as strings and returns a JSON
+        Params:
+                numOfQuestions: Number of Kahoot question user wants generated.
+                subject: Subject the user wants the flashcards to be made about.
+		notes: Document of notes the user wants the Kahoot to be based off of.
+        Returns: Response of the GPT-4 in the format of a JSON
+'''
 def notesGptCallKahoot(notes, subject, numOfQuestions):
 	client = OpenAI(api_key = API_KEY)
 
@@ -41,6 +60,9 @@ def notesGptCallKahoot(notes, subject, numOfQuestions):
 	return completion.choices[0].message.content
 
 
+
+
+#-=== Legacy Code ===-#
 """ client = OpenAI(api_key = API_KEY)
 #OpenAI.api_key = "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"
 numOfCards = "10"
