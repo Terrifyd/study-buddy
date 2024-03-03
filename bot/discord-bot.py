@@ -70,7 +70,7 @@ async def on_message(message):
             await message.channel.send("Please attach a text (.txt) file.")
 
 
-
+#TODO: turn this into a switch statement
 @client.event
 async def on_reaction_add(reaction,user):
     global subject
@@ -105,7 +105,7 @@ async def on_reaction_add(reaction,user):
 #  elif str(reaction.emoji) == "🎮"
     elif str(reaction.emoji) =="🛑":
         await reaction.message.channel.send("Okay Im always available if you ever need me!")
-        return 
+        return
 
 
     
