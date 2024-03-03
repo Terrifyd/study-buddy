@@ -4,6 +4,7 @@ import random
 import discord
 import asyncio
 import json
+import time
 from dotenv import load_dotenv
 from aifunc import ParseJSON, gptCall, custom_notes
 
@@ -102,6 +103,7 @@ async def on_message(message):
 async def on_reaction_add(reaction,user):
     global subject
     global txtFileRead
+    notecard_list = []
     if user == client.user:
         return
     if str(reaction.emoji) == '🗒️':
@@ -121,17 +123,32 @@ async def on_reaction_add(reaction,user):
         await sent_message.add_reaction('3️⃣')
     if str(reaction.emoji) == '5️⃣':
         await reaction.message.channel.send("Creating 5 notecards please be patient...")
-        await reaction.message.channel.send((gptCall.gptCallFlashcards("5",subject)))
-        await reaction.message.channel.send(ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("5",subject)["content"]))
+        notecard_list = ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("5",subject))
+        for notecard in notecard_list:
+            await reaction.message.channel.send(notecard)
+            time.sleep(0.5)
+        await reaction.message.channel.send("All done! Please ping me again if you'd need a Study Buddy!")
     elif str(reaction.emoji) == '1️⃣':
         await reaction.message.channel.send("Creating 10 notecards please be patient...")
-        await reaction.message.channel.send(ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("10",subject)["content"]))
+        notecard_list = ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("10",subject))
+        for notecard in notecard_list:
+            await reaction.message.channel.send(notecard)
+            time.sleep(0.5)
+        await reaction.message.channel.send("All done! Please ping me again if you'd need a Study Buddy!")
     elif str(reaction.emoji) == '2️⃣':
         await reaction.message.channel.send("Creating 20 notecards please be patient...")
-        await reaction.message.channel.send(ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("20",subject)["content"]))
+        notecard_list = ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("20",subject))
+        for notecard in notecard_list:
+            await reaction.message.channel.send(notecard)
+            time.sleep(0.5)
+        await reaction.message.channel.send("All done! Please ping me again if you'd need a Study Buddy!")
     elif str(reaction.emoji) == '3️⃣':
         await reaction.message.channel.send("Creating 30 notecards please be patient...")
-        await reaction.message.channel.send(ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("30",subject)))
+        notecard_list = ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("30",subject))
+        for notecard in notecard_list:
+            await reaction.message.channel.send(notecard)
+            time.sleep(0.5)
+        await reaction.message.channel.send("All done! Please ping me again if you'd need a Study Buddy!")
     elif str(reaction.emoji) == "🎮":
         await start_game(reaction.message)
     elif str(reaction.emoji) =="🛑":
@@ -148,13 +165,13 @@ async def on_reaction_add(reaction,user):
         response_message = await client.wait_for('message', check=lambda m: m.author == user and m.channel == reaction.message.channel, timeout=60)
         user_topic = response_message.content
         await reaction.message.channel.send("Creating 10 questions please be patient...")
-        await reaction.message.channel.send((gptCall.notesGptCallKahoot(subject, user_topic, "10")))
+        await reaction.message.channel.send((custom_notes.notesGptCallKahoot(subject, user_topic, "10")))
     elif str(reaction.emoji) == '🅱️':
         await reaction.message.channel.send("Great! Now just send a message with the overall topic you'd like to review")
         response_message = await client.wait_for('message', check=lambda m: m.author == user and m.channel == reaction.message.channel, timeout=60)
         user_topic = response_message.content
         await reaction.message.channel.send("Creating 20 questions please be patient...")
-        await reaction.message.channel.send((gptCall.notesGptCallKahoot(subject, user_topic, "20")))
+        await reaction.message.channel.send((custom_notes.notesGptCallKahoot(subject, user_topic, "20")))
     if str(reaction.emoji) in '🟥🟨🟩🟦':
         pass
 
