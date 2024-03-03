@@ -26,7 +26,7 @@ def gptCallFlashcards(numOfCards: str, subject: str):
   	  model="gpt-4",
   	  messages=[
     	    {"role": "system", "content": "You are a professor, skilled in explaining a vast amount of different school subjects"},
-    	    {"role": "user", "content": "Generate " + numOfCards + " flash cards to help me study for "+ subject + " and organize the front and back in a JSON format"}
+    	    {"role": "user", "content": "Generate " + numOfCards + " flash cards to help me study for "+ subject + " and organize the card number, front, and back in a single JSON format"}
   	  ]
 	)
 	return completion.choices[0].message.content
@@ -53,7 +53,7 @@ def gptCallKahoot(numOfQuestions: str, subject: str):
 	  model="gpt-4",
 	  messages=[
 	    {"role": "system", "content": "You are a professor, skilled in explaining a vast amount of different school subjects"},
-	    {"role": "user", "content": "Generate "+ numOfQuestions +" four answer multiple choice question about "+ subject +" and organize the four answers in a JSON format with the question, the answer, and the three fake answers"}
+	    {"role": "user", "content": "Generate "+ numOfQuestions +" four answer multiple choice question about "+ subject +" and organize the four answers in a single JSON format with the question, the answer, and the three fake answers"}
 	  ]
 	)
 	return completion.choices[0].message.content

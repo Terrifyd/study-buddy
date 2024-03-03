@@ -27,7 +27,7 @@ def notesGptCallFlashcards(notes: str, subject: str, numOfCards: str):
           model="gpt-4",
 	  messages=[
 	    {"role": "system", "content": "You are a professor, skilled in explaining a vast amount of different school subjects"},
-	    {"role": "user", "content": "Generate " + numOfCards + " flash cards based on the provided text deliminated by triple backticks and organize the front and back in a JSON format with the front being a question and the back being the answer: ```" + 
+	    {"role": "user", "content": "Generate " + numOfCards + " flash cards based on the provided text deliminated by triple backticks and organize the front and back in a single JSON format with the card number, the front being a question, and the back being the answer: ```" + 
 	    notes + "```."}
 	  ]
 	)
@@ -59,7 +59,7 @@ def notesGptCallKahoot(notes, subject, numOfQuestions):
 	  model="gpt-4",
 	  messages=[
 	    {"role": "system", "content": "You are a professor, skilled in explaining a vast amount of different school subjects"},
-	    {"role": "user", "content": "Generate "+ numOfQuestions +" four answer multiple choice questions about "+ subject +" based on the provided text deliminated by the triple backticks and organize the four answers in a JSON format with the question, the answer, and the three fake answers:```"+
+	    {"role": "user", "content": "Generate "+ numOfQuestions +" four answer multiple choice questions about "+ subject +" based on the provided text deliminated by the triple backticks and organize the four answers in a single JSON format with the question, the answer, and the three fake answers:```"+
 	    notes +"```."}
 	  ]
 	)
