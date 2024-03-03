@@ -49,6 +49,7 @@ def formatKahoot(response):
 		fakes.insert(rand.randint(0, 3), answer)
 
 		final.append(f'**{question}**\n1. {fakes[0]}\n2. {fakes[1]}\n3. {fakes[2]}\n4. {fakes[3]}')
+		final.append(answer)
 	return final
 
 '''
