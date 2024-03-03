@@ -26,7 +26,7 @@ def gptCallFlashcards(numOfCards: str, subject: str):
   	  model="gpt-4",
   	  messages=[
     	    {"role": "system", "content": "You are a professor, skilled in explaining a vast amount of different school subjects"},
-    	    {"role": "user", "content": "Generate " + numOfCards + " flash cards to help me study for "+ subject + " and organize the card number, front, and back in a single JSON format"}
+    	    {"role": "user", "content": "Generate " + numOfCards + " flash cards to help me study for "+ subject + ''' and organize the card number, front, and back in a single JSON format delaminated by the square braces: [ {"id": <card number>, "front": "<front of the card>", "back": "<back of the card>"}, ...]'''}
   	  ]
 	)
 	return completion.choices[0].message.content
