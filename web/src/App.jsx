@@ -2,8 +2,10 @@ import { useState } from 'react'
 //import reactLogo from './assets/react.svg'
 //import viteLogo from '/vite.svg'
 import './App.css'
+import './style.css'
 import { OPENAI_API_KEY } from './Token' // MUST CREATE A FILE CALLED "Token.jsx" AND EXPORT OPEN_API_KEY VAR
 import { Parse } from "./components/Parse"
+import { DisplayCards } from "./components/DisplayCards"
 // import OpenAI from "openai";
 
 /* const openai = new OpenAI();
@@ -22,19 +24,26 @@ main(); */
 
 function App() {
   let apiKey = OPENAI_API_KEY;
-  const [notes, setNotes] = useState("")
-  const [cards, setCards] = useState("")
+  const [notes, setNotes] = useState("");
+  const [cards, setCards] = useState("");
+  const [reveal, setReveal] = useState(false);
+  const [numCards, setNumCards] = useState("5");
+  const [feedback, setFeedback] = useState("Hello! Welcome to stUDy Buddy")
+
+  //const numCards = 5; //controls the number of cards generated, make sure this reads as string
 
 
   async function callOpenAIAPI() {
     console.log("function logged")
+
+    setFeedback("Generating " + numCards.toString() + " Flashcards based on your notes (this may take some time)");
 
     const API_Body = {
         "model": "gpt-4",
         "messages": [
           {
             "role": "system",
-            "content": "You will be provided with study notes, your job is to turn these notes into 5 flashcards with a front that asks a question and a back that contains the answer. You will format the flashcards as a JSON file"
+            "content": "You will be provided with study notes, your job is to turn these notes into" + numCards.toString() + " flashcards with a front that asks a question and a back that contains the answer. You will format the flashcards as a JSON file"
           },
           {
             "role": "user",
@@ -62,6 +71,17 @@ function App() {
       setCards(results) //stores the json in cards
     })
 
+    setFeedback("Here are your card, happy studying!");
+  }
+
+  function flipCard() {
+    if (reveal === true) {
+      setReveal(false);
+    }
+
+    else {
+      setReveal(true);
+    }
   }
 
   //Parse(cards)
@@ -79,9 +99,45 @@ function App() {
       </div>
       <div>
         <button onClick={callOpenAIAPI}>Get Flashcards</button>
-        {cards !== "" ? <p>Your cards: {cards[0]["front"]} </p> : null}
+        <button onClick={flipCard}>Reveal Answer</button>
+      </div>
+      <div>
+        <input 
+          type="radio" 
+          value="5" 
+          name="numCards" 
+          onChange={(e) => setNumCards(e.target.value)} 
+        /> 5
+        <input 
+          type="radio" 
+          value="10" 
+          name="numCards" 
+          onChange={(e) => setNumCards(e.target.value)} 
+        /> 10
+        <input 
+          type="radio" 
+          value="15" 
+          name="numCards" 
+          onChange={(e) => setNumCards(e.target.value)}
+          defaultChecked 
+        /> 15
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          border: '1px solid black', 
+          height: '300px', 
+          width: '550px',
+        }}
+      >
+        {cards !== "" ? <p>{DisplayCards(cards, 0, reveal)} </p> : null}
       </div>
 
+      <div className="bottomtext">
+        {feedback}
+      </div>
     </div>
   )
 }

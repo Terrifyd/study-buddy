@@ -1,0 +1,10 @@
+/* MY CSS HERE */
+.bottomtext {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: lightgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
