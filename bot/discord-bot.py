@@ -54,9 +54,7 @@ async def on_message(message):
 
         # Check if the file is a text file (you can customize this check)
         if file.filename.endswith('.txt'):
-            print("got inside .txt")
             if txtFileRead == 'flashcards':
-                print("got inside flash")
                 try:
                     # Read the content of the text file
                     file_content = await file.read()
@@ -103,6 +101,7 @@ async def on_message(message):
 @client.event
 async def on_reaction_add(reaction,user):
     global subject
+    global txtFileRead
     if user == client.user:
         return
     if str(reaction.emoji) == '🗒️':
@@ -140,17 +139,22 @@ async def on_reaction_add(reaction,user):
         return
     if str(reaction.emoji) == '📃':
         response =(f'Send your notes below to get them converted to questions!\n')
-        print("tried to update kahoot")
         txtFileRead = 'kahoot'
         sent_message = await reaction.message.channel.send(response)
     elif str(reaction.emoji) == '⌨️':
         pass
     if str(reaction.emoji) == '🅰️':
+        await reaction.message.channel.send("Great! Now just send a message with the overall topic you'd like to review")
+        response_message = await client.wait_for('message', check=lambda m: m.author == user and m.channel == reaction.message.channel, timeout=60)
+        user_topic = response_message.content
         await reaction.message.channel.send("Creating 10 questions please be patient...")
-        await reaction.message.channel.send((gptCall.gptCallKahoot("10",subject)))
+        await reaction.message.channel.send((gptCall.notesGptCallKahoot(subject, user_topic, "10")))
     elif str(reaction.emoji) == '🅱️':
+        await reaction.message.channel.send("Great! Now just send a message with the overall topic you'd like to review")
+        response_message = await client.wait_for('message', check=lambda m: m.author == user and m.channel == reaction.message.channel, timeout=60)
+        user_topic = response_message.content
         await reaction.message.channel.send("Creating 20 questions please be patient...")
-        await reaction.message.channel.send((gptCall.gptCallKahoot("20",subject)))
+        await reaction.message.channel.send((gptCall.notesGptCallKahoot(subject, user_topic, "20")))
     if str(reaction.emoji) in '🟥🟨🟩🟦':
         pass
 
