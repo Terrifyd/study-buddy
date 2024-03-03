@@ -22,7 +22,7 @@ def gptCallFlashcards(numOfCards, subject):
     	    {"role": "user", "content": "Generate " + numOfCards + " flash cards to help me study for "+ subject + " and organize the front and back in a JSON format"}
   	  ]
 	)
-	return completion.choices[0].message
+	return completion.choices[0].message.content
 
 def gptCallKahoot(numOfQuestions, subject):
 	load_dotenv()
@@ -40,7 +40,5 @@ def gptCallKahoot(numOfQuestions, subject):
 	    {"role": "user", "content": "Generate "+ numOfQuestions +" four answer multiple choice question about "+ subject +" and organize the four answers in a JSON format with the question, the answer, and the three fake answers"}
 	  ]
 	)
-	return completion.choices[0].message
+	return completion.choices[0].message.content
 
-gptCallFlashcards("5", "American History")
-gptCallKahoot("1", "American History")
