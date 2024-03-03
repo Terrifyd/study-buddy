@@ -201,7 +201,7 @@ async def on_reaction_add(reaction,user):
             await asked_question.add_reaction('🟨')
             await asked_question.add_reaction('🟩')
             await asked_question.add_reaction('🟦')
-            time.sleep(8)
+            time.sleep(5)
     elif str(reaction.emoji) == '🅱️':
         await reaction.message.channel.send("Great! Now just send a message with the overall topic you'd like to review")
         response_message = await client.wait_for('message', check=lambda m: m.author == user and m.channel == reaction.message.channel, timeout=60)
