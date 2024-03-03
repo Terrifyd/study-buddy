@@ -195,9 +195,13 @@ async def on_reaction_add(reaction,user):
             question_list = ParseJSON.formatKahoot(custom_notes.notesGptCallKahoot(subject, user_topic, "10"))
         else:
             question_list = ParseJSON.formatKahoot(gptCall.gptCallKahoot("10", user_topic))
-        for question in question_list:
-            await reaction.message.channel.send(question)
-            time.sleep(0.5)
+        for question in (len(question_list)-1):
+            asked_question = await reaction.message.channel.send(question)
+            await asked_question.add_reaction('🟥')
+            await asked_question.add_reaction('🟨')
+            await asked_question.add_reaction('🟩')
+            await asked_question.add_reaction('🟦')
+            time.sleep(8)
     elif str(reaction.emoji) == '🅱️':
         await reaction.message.channel.send("Great! Now just send a message with the overall topic you'd like to review")
         response_message = await client.wait_for('message', check=lambda m: m.author == user and m.channel == reaction.message.channel, timeout=60)
@@ -234,12 +238,6 @@ async def start_game(message):
         await sent_user_prompt.add_reaction('📃')
         await sent_user_prompt.add_reaction('⌨️')
 
-    def ask_question(message):
-        if customNotes:
-            pass
-        else:
-            pass
-
     def update_scoreboard():
         pass
 
@@ -257,7 +255,6 @@ async def start_game(message):
     player_names = ', '.join([player.name for player in players])
     await message.channel.send(f"Players in the game: {player_names}")
     await get_user_prompt(message)
-    #await ask_question(message)
 
 
 
