@@ -13,7 +13,9 @@ GUILD = os.getenv('DISCORD_GUILD')
 
 client = discord.Client(intents = discord.Intents.all())
 global subject
+global txtFileRead
 subject = ""
+txtFileRead = ""
 
 @client.event
 async def on_ready():
@@ -52,7 +54,9 @@ async def on_message(message):
 
         # Check if the file is a text file (you can customize this check)
         if file.filename.endswith('.txt'):
-            if str(discord.Reaction.emoji) == '🗒️':
+            print("got inside .txt")
+            if txtFileRead == 'flashcards':
+                print("got inside flash")
                 try:
                     # Read the content of the text file
                     file_content = await file.read()
@@ -72,7 +76,8 @@ async def on_message(message):
                     await sent_message.add_reaction('3️⃣')
                 except discord.HTTPException as e:
                     await message.channel.send(f"Error reading the file: {e}")
-            elif str(discord.Reaction.emoji) == '📃':
+            elif txtFileRead == "kahoot":
+                print("got inside kahoot")
                 try:
                     # Read the content of the text file
                     file_content = await file.read()
@@ -102,6 +107,7 @@ async def on_reaction_add(reaction,user):
         return
     if str(reaction.emoji) == '🗒️':
         response =(f'Send your notes below to get them converted to notecards!\n ')
+        txtFileRead = 'flashcards'
         sent_message = await reaction.message.channel.send(response)
     elif str(reaction.emoji) == '📝':
         response =(f'What subject do you want to cover in the notecards?')
@@ -134,6 +140,8 @@ async def on_reaction_add(reaction,user):
         return
     if str(reaction.emoji) == '📃':
         response =(f'Send your notes below to get them converted to questions!\n')
+        print("tried to update kahoot")
+        txtFileRead = 'kahoot'
         sent_message = await reaction.message.channel.send(response)
     elif str(reaction.emoji) == '⌨️':
         pass
