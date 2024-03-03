@@ -1,23 +1,15 @@
 # bot.py
 import os
 import random
-from discord.ext import commands
 import discord
-import logging
-from discord.ext import commands
 from dotenv import load_dotenv
 
-#TODO: set up logging if needed with: discord.utils.setup_logging()
-
-#GET TOKEN AND SERVER NAME FROM ENV
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
-intents = discord.Intents.all()
-client = discord.Client(intents = intents)
-bot = commands.Bot(command_prefix='?', intents=intents)
 
-#CLIENT EVENTS
+client = discord.Client(intents = discord.Intents.all())
+
 @client.event
 async def on_ready():
     guild = discord.utils.find(lambda g: g.name == GUILD, client.guilds)
@@ -37,14 +29,28 @@ async def on_member_join(member):
 async def on_message(message):
     if message.author == client.user:
         return
-    print(f'Message from {message.author}: {message.content}')    
+    print(f'Message from {message.author}: {message.content}')
 
+
+    
+    
+    
     if "<@1213544417340956732>" in message.content.lower():
-        response = random.choice(corey_titles)
-        await message.channel.send (corey_titles)
+
+        response = (f'Hello ' + str(message.author) + '! What do you need help with?\n 🗒️ to create notecards using supplied notes \n 📝 to create notecards using a broad subject \n 🎮 to Start a kahoot quiz')
+        personTalking = message.author
+        sent_message = await message.channel.send(response)
+        await sent_message.add_reaction('🗒️')
+        await sent_message.add_reaction('🎮')
+async def on_reaction_add(reaction,user):
+    if reaction.message.content.startswith("Hello") and str(reaction.emoji) == "🗒️":
+        response =(f'Send your notes below to get them converted to notecards!\n ')
+        send_message = await message.channel.send(response)
+        await reaction.message.channel.send('What topic would you like to have notecards for?')
+        
+
     
 
 
 
-#client.run(TOKEN)
-bot.run(TOKEN)
+client.run(TOKEN)
