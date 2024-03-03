@@ -13,6 +13,8 @@ else:
 
 
 def Custom_Notes(notes: str, subject: str, numOfCards: int):
+    client = OpenAI(api_key = API_KEY)
+    
     completion = client.chat.completions.create(
         model="gpt-4",
         messages=[
