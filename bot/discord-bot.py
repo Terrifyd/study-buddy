@@ -10,10 +10,8 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
 client = discord.Client(intents = discord.Intents.all())
-global conversation_state
-global user_in_conversation
-conversation_state = ""
-user_in_conversation = ""
+global subject
+subject = ""
 @client.event
 async def on_ready():
     guild = discord.utils.find(lambda g: g.name == GUILD, client.guilds)
@@ -32,28 +30,25 @@ async def on_member_join(member):
 
 @client.event
 async def on_message(message):
-    global conversation_state
-    global user_in_conversation
 
     if message.author == client.user:
         return
     print(f'Message from {message.author}: {message.content}')
 
     if "<@1213544417340956732>" in message.content.lower():
-        if conversation_state == "Done" or conversation_state == "":
-            conversation_state == "Start"
-            response = ('Hello ' + str(message.author) + '! What do you need help with?\n 🗒️ to create notecards using supplied notes \n 📝 to create notecards using a broad subject \n 🎮 to Start a kahoot quiz \n 🛑 to end our conversation')
-            sent_message = await message.channel.send(response)
-            user_in_conversation = message.author
-            await sent_message.add_reaction('🗒️')
-            await sent_message.add_reaction('📝')
-            await sent_message.add_reaction('🎮')
-            await sent_message.add_reaction('🛑')
+        response = ('Hello ' + str(message.author) + '! What do you need help with?\n 🗒️ to create notecards using supplied notes \n 📝 to create notecards using a broad subject \n 🎮 to Start a kahoot quiz \n 🛑 to end our conversation')
+        sent_message = await message.channel.send(response)
+        user_in_conversation = message.author
+        await sent_message.add_reaction('🗒️')
+        await sent_message.add_reaction('📝')
+        await sent_message.add_reaction('🎮')
+        await sent_message.add_reaction('🛑')
 
 
 
 @client.event
 async def on_reaction_add(reaction,user):
+    global subject
     if user == client.user:
         return
     if str(reaction.emoji) == '🗒️':
@@ -62,28 +57,24 @@ async def on_reaction_add(reaction,user):
     elif str(reaction.emoji) == "📝":
         response =(f'What subject do you want to cover in the notecards?')
         await reaction.message.channel.send(response)
-        try:
-            response_message = await client.wait_for('message', check=lambda m: m.author == user and m.channel == reaction.message.channel, timeout=60)
-            subject = response_message.content
-            response = ('How many notecards would you like to be made?\n 5️⃣ for 5 \n 1️⃣ for 10 \n 2️⃣ for 20 \n 3️⃣ for 30')
-            sent_message = await message.channel.send(response)
-            await sent_message.add_reaction('5️⃣')
-            await sent_message.add_reaction('1️⃣')
-            await sent_message.add_reaction('2️⃣')
-            await sent_message.add_reaction('3️⃣')
-            if user == client.user:
-                    return
-            if str(reaction.emoji) == '5️⃣':
-                await reaction.message.channel.send(gptCall.gptCallFlashcards("5",subject))
-            elif str(reaction.emoji) == '1️⃣':
-                await reaction.message.channel.send(gptCall.gptCallFlashcards("10",subject))
-            elif str(reaction.emoji) == '2️⃣':
-                await reaction.message.channel.send(gptCall.gptCallFlashcards("20",subject))
-            elif str(reaction.emoji) == '3️⃣':
-                await reaction.message.channel.send(gptCall.gptCallFlashcards("30",subject))
-        except asyncio.TimeoutError:
-            await reaction.message.channel.send('You took too long to specify the subject!')
-  #  elif str(reaction.emoji) == "🎮"
+        response_message = await client.wait_for('message', check=lambda m: m.author == user and m.channel == reaction.message.channel, timeout=60)
+        subject = response_message.content
+        response = ('How many notecards would you like to be made?\n 5️⃣ for 5 \n 1️⃣ for 10 \n 2️⃣ for 20 \n 3️⃣ for 30')
+        sent_message = await reaction.message.channel.send(response)
+        await sent_message.add_reaction('5️⃣')
+        await sent_message.add_reaction('1️⃣')
+        await sent_message.add_reaction('2️⃣')
+        await sent_message.add_reaction('3️⃣')
+    if str(reaction.emoji) == '5️⃣':
+        await reaction.message.channel.send("Creating notecards please be patient...")
+        await reaction.message.channel.send(gptCall.gptCallFlashcards("5",subject))
+    elif str(reaction.emoji) == '1️⃣':
+        await reaction.message.channel.send(gptCall.gptCallFlashcards("10",subject))
+    elif str(reaction.emoji) == '2️⃣':
+        await reaction.message.channel.send(gptCall.gptCallFlashcards("20",subject))
+    elif str(reaction.emoji) == '3️⃣':
+        await reaction.message.channel.send(gptCall.gptCallFlashcards("30",subject))
+#  elif str(reaction.emoji) == "🎮"
 
 
     
