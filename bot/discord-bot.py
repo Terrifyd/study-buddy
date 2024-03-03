@@ -12,6 +12,7 @@ GUILD = os.getenv('DISCORD_GUILD')
 client = discord.Client(intents = discord.Intents.all())
 global subject
 subject = ""
+
 @client.event
 async def on_ready():
     guild = discord.utils.find(lambda g: g.name == GUILD, client.guilds)
@@ -55,8 +56,14 @@ async def on_message(message):
 
                 # Process the file content (you can customize this part)
                 # In this example, let's just send the content back to the channel
-                subject = f"File Content:\n```{file_content.decode('utf-8')}```"
-                await message.channel.send(subject)
+                subject = f"{file_content.decode('utf-8')}"
+                await message.channel.send("Got it! Looks good to me!")
+                response = ('How many notecards would you like to be made?\n 5️⃣ for 5 \n 1️⃣ for 10 \n 2️⃣ for 20 \n 3️⃣ for 30')
+                sent_message = await message.channel.send(response)
+                await sent_message.add_reaction('5️⃣')
+                await sent_message.add_reaction('1️⃣')
+                await sent_message.add_reaction('2️⃣')
+                await sent_message.add_reaction('3️⃣')
             except discord.HTTPException as e:
                 await message.channel.send(f"Error reading the file: {e}")
         else:
