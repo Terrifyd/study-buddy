@@ -16,6 +16,7 @@ user_in_conversation = ""
 @client.event
 async def on_ready():
     guild = discord.utils.find(lambda g: g.name == GUILD, client.guilds)
+    await client.change_presence(activity=discord.Game('@ me for a Study Buddy!'))
     print(
         f'{client.user} is connected to the following guild:\n'
         f'{guild.name}(id: {guild.id})'
