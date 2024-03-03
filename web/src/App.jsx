@@ -2,7 +2,8 @@ import { useState } from 'react'
 //import reactLogo from './assets/react.svg'
 //import viteLogo from '/vite.svg'
 import './App.css'
-import { OPENAI_API_KEY } from './Token'
+import { OPENAI_API_KEY } from './Token' // MUST CREATE A FILE CALLED "Token.jsx" AND EXPORT OPEN_API_KEY VAR
+import { Parse } from "./components/Parse"
 // import OpenAI from "openai";
 
 /* const openai = new OpenAI();
@@ -37,7 +38,7 @@ function App() {
           },
           {
             "role": "user",
-            "content": "Here are the study notes deliminated by three backticks: ```" + notes + "```"
+            "content": "Here are the study notes deliminated by two curly braces: {{" + notes + "}}"
           }
         ],
         "temperature": 0.5,
@@ -56,11 +57,12 @@ function App() {
       return data.json();
     }).then((data) => {
       console.log(data);
-      setCards(data.choices[0].message.content)
+      setCards(data.choices[0].message.content) //stores the json in cards
     })
 
   }
 
+  Parse(cards)
   //console.log(notes)
   //console.log(apiKey)
   return (
@@ -76,6 +78,7 @@ function App() {
       <div>
         <button onClick={callOpenAIAPI}>Get Flashcards</button>
       </div>
+
 
     <div>Cards: {cards}</div>
     </div>
