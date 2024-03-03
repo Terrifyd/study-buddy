@@ -2,11 +2,19 @@ import json
 import sys
 
 
+def cleanUpString(dirtyStr):
+	begin = dirtyStr.find('[')
+	end = dirtyStr.rfind(']')
+	return dirtyStr[begin:end+1]
+
+
 def formatFlashcard(response):
 	#Iterate through the list of dictionaries, formating them and placing the formated string in a list
 	final = []
+	#Remove preciding and trailing text from the gpt response string
+	clean = cleanUpString(response)
 	#check if a list or single dictionary with the list
-	for card in json.loads(response):
+	for card in json.loads(clean):
 		front = card["front"]
 		back = card["back"]
 		final.append(f'{front}\n\n||{back}||')
