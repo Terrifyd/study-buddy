@@ -2,13 +2,6 @@ from openai import OpenAI
 import os
 from dotenv import load_dotenv
 
-# Get the value of OPENAI_API_KEY
-load_dotenv()
-API_KEY = os.getenv('OPENAI_API_KEY')
-if API_KEY is None:
-    print("Error: OPENAI_API_KEY is not set.")
-else:
-    print("OPENAI_API_KEY:", API_KEY)
 
 
 '''
@@ -21,6 +14,13 @@ notesGptCallFlashcards:
         Returns: Response of the GPT-4 in the format of a JSON
 '''
 def notesGptCallFlashcards(notes: str, subject: str, numOfCards: str):
+	# Get the value of OPENAI_API_KEY
+	load_dotenv()
+	API_KEY = os.getenv('OPENAI_API_KEY')
+	if API_KEY is None:
+    		print("Error: OPENAI_API_KEY is not set.")
+	else:
+    		print("OPENAI_API_KEY:", API_KEY)
 	client = OpenAI(api_key = API_KEY)
 
 	completion = client.chat.completions.create(
@@ -46,6 +46,13 @@ notesGptCallKahoot:
         Returns: Response of the GPT-4 in the format of a JSON
 '''
 def notesGptCallKahoot(notes, subject, numOfQuestions):
+	# Get the value of OPENAI_API_KEY
+	load_dotenv()
+	API_KEY = os.getenv('OPENAI_API_KEY')
+	if API_KEY is None:
+    		print("Error: OPENAI_API_KEY is not set.")
+	else:
+    		print("OPENAI_API_KEY:", API_KEY)
 	client = OpenAI(api_key = API_KEY)
 
 	completion = client.chat.completions.create(
