@@ -105,6 +105,7 @@ async def on_reaction_add(reaction,user):
     global customNotes
     customNotes = False
     notecard_list = []
+    question_list = []
     if user == client.user:
         return
     if str(reaction.emoji) == '🗒️':
@@ -177,19 +178,34 @@ async def on_reaction_add(reaction,user):
         txtFileRead = 'kahoot'
         sent_message = await reaction.message.channel.send(response)
     elif str(reaction.emoji) == '⌨️':
-        pass
+        response = ('How many questions would you like to be made?\n\n🅰️ for 10 \n🅱️ for 20')
+        sent_message = await reaction.message.channel.send(response)
+        await sent_message.add_reaction('🅰️')
+        await sent_message.add_reaction('🅱️')
     if str(reaction.emoji) == '🅰️':
         await reaction.message.channel.send("Great! Now just send a message with the overall topic you'd like to review")
         response_message = await client.wait_for('message', check=lambda m: m.author == user and m.channel == reaction.message.channel, timeout=60)
         user_topic = response_message.content
         await reaction.message.channel.send("Creating 10 questions please be patient...")
-        await reaction.message.channel.send((custom_notes.notesGptCallKahoot(subject, user_topic, "10")))
+        if customNotes:
+            question_list = ParseJSON.formatKahoot(custom_notes.notesGptCallKahoot(subject, user_topic, "10"))
+        else:
+            question_list = ParseJSON.formatKahoot(gptCall.gptCallKahoot("10", user_topic))
+        for question in question_list:
+            await reaction.message.channel.send(question)
+            time.sleep(0.5)
     elif str(reaction.emoji) == '🅱️':
         await reaction.message.channel.send("Great! Now just send a message with the overall topic you'd like to review")
         response_message = await client.wait_for('message', check=lambda m: m.author == user and m.channel == reaction.message.channel, timeout=60)
         user_topic = response_message.content
         await reaction.message.channel.send("Creating 20 questions please be patient...")
-        await reaction.message.channel.send((custom_notes.notesGptCallKahoot(subject, user_topic, "20")))
+        if customNotes:
+            question_list = ParseJSON.formatKahoot(custom_notes.notesGptCallKahoot(subject, user_topic, "20"))
+        else:
+            question_list = ParseJSON.formatKahoot(gptCall.gptCallKahoot("20", user_topic))
+        for question in question_list:
+            await reaction.message.channel.send(question)
+            time.sleep(0.5)
     if str(reaction.emoji) in '🟥🟨🟩🟦':
         pass
 
