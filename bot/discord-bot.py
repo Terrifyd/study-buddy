@@ -52,25 +52,44 @@ async def on_message(message):
 
         # Check if the file is a text file (you can customize this check)
         if file.filename.endswith('.txt'):
-            try:
-                # Read the content of the text file
-                file_content = await file.read()
+            if str(discord.Reaction.emoji) == '🗒️':
+                try:
+                    # Read the content of the text file
+                    file_content = await file.read()
 
-                # Process the file content as a string
-                subject = file_content.decode('utf-8')
-                
-                # Print or log the string content for inspection
-                print("File Content:", subject)
+                    # Process the file content as a string
+                    subject = file_content.decode('utf-8')
+                    
+                    # Print or log the string content for inspection
+                    print("File Content:", subject)
 
-                await message.channel.send("Got it! Looks good to me!")
-                response = ('How many notecards would you like to be made?\n 5️⃣ for 5 \n 1️⃣ for 10 \n 2️⃣ for 20 \n 3️⃣ for 30')
-                sent_message = await message.channel.send(response)
-                await sent_message.add_reaction('5️⃣')
-                await sent_message.add_reaction('1️⃣')
-                await sent_message.add_reaction('2️⃣')
-                await sent_message.add_reaction('3️⃣')
-            except discord.HTTPException as e:
-                await message.channel.send(f"Error reading the file: {e}")
+                    await message.channel.send("Got it! Looks good to me!")
+                    response = ('How many notecards would you like to be made?\n 5️⃣ for 5 \n 1️⃣ for 10 \n 2️⃣ for 20 \n 3️⃣ for 30')
+                    sent_message = await message.channel.send(response)
+                    await sent_message.add_reaction('5️⃣')
+                    await sent_message.add_reaction('1️⃣')
+                    await sent_message.add_reaction('2️⃣')
+                    await sent_message.add_reaction('3️⃣')
+                except discord.HTTPException as e:
+                    await message.channel.send(f"Error reading the file: {e}")
+            elif str(discord.Reaction.emoji) == '📃':
+                try:
+                    # Read the content of the text file
+                    file_content = await file.read()
+
+                    # Process the file content as a string
+                    subject = file_content.decode('utf-8')
+                    
+                    # Print or log the string content for inspection
+                    print("File Content:", subject)
+
+                    await message.channel.send("Got it! Looks good to me!")
+                    response = ('How many questions would you like to be made?\n\n🅰️ for 10 \n🅱️ for 20')
+                    sent_message = await message.channel.send(response)
+                    await sent_message.add_reaction('🅰️')
+                    await sent_message.add_reaction('🅱️')
+                except discord.HTTPException as e:
+                    await message.channel.send(f"Error reading the file: {e}")
         else:
             await message.channel.send("Please attach a text file.")
 
@@ -84,7 +103,7 @@ async def on_reaction_add(reaction,user):
     if str(reaction.emoji) == '🗒️':
         response =(f'Send your notes below to get them converted to notecards!\n ')
         sent_message = await reaction.message.channel.send(response)
-    elif str(reaction.emoji) == "📝":
+    elif str(reaction.emoji) == '📝':
         response =(f'What subject do you want to cover in the notecards?')
         await reaction.message.channel.send(response)
         response_message = await client.wait_for('message', check=lambda m: m.author == user and m.channel == reaction.message.channel, timeout=60)
@@ -96,7 +115,7 @@ async def on_reaction_add(reaction,user):
         await sent_message.add_reaction('2️⃣')
         await sent_message.add_reaction('3️⃣')
     if str(reaction.emoji) == '5️⃣':
-        await reaction.message.channel.send("Creating  5 notecards please be patient...")
+        await reaction.message.channel.send("Creating 5 notecards please be patient...")
         await reaction.message.channel.send((gptCall.gptCallFlashcards("5",subject)))
         await reaction.message.channel.send(ParseJSON.formatFlashcard(gptCall.gptCallFlashcards("5",subject)["content"]))
     elif str(reaction.emoji) == '1️⃣':
@@ -113,15 +132,46 @@ async def on_reaction_add(reaction,user):
     elif str(reaction.emoji) =="🛑":
         await reaction.message.channel.send("Okay Im always available if you ever need me!")
         return
+    if str(reaction.emoji) == '📃':
+        response =(f'Send your notes below to get them converted to questions!\n')
+        sent_message = await reaction.message.channel.send(response)
+    elif str(reaction.emoji) == '⌨️':
+        pass
+    if str(reaction.emoji) == '🅰️':
+        await reaction.message.channel.send("Creating 10 questions please be patient...")
+        await reaction.message.channel.send((gptCall.gptCallKahoot("10",subject)))
+    elif str(reaction.emoji) == '🅱️':
+        await reaction.message.channel.send("Creating 20 questions please be patient...")
+        await reaction.message.channel.send((gptCall.gptCallKahoot("20",subject)))
+    if str(reaction.emoji) in '🟥🟨🟩🟦':
+        pass
 
+
+#TODO: get players, prompt user for a file input or a prompt input, generate questions, create embed with reactions, 
+#keep score, print winner
 async def start_game(message):
     # Send a message to prompt players to join
-    join_message = await message.channel.send(" @everyone React with ✅ to join the game!")
+    join_message = await message.channel.send(" @everyone React with ✅ to join the review!")
     await join_message.add_reaction('✅')
 
     # Wait for players to join
     def check(reaction, user):
         return str(reaction.emoji) == '✅' and reaction.message == join_message and user != client.user
+    
+
+    async def get_user_prompt(message):
+        intro_message = ('Welcome to StudyBuddy\'s Quick Questions, where your speed and knowledge are put to the test.\nThe rules are quite simple: Be fast and pick the correct answer by reacting with the correct color.\n Good luck!')
+        user_prompt = ('Now, what topic would you like to cover today?\nReact with a 📃 to enter a .txt file\nReact with a ⌨️ to give StudyBuddy a prompt')
+        await message.channel.send(intro_message)
+        sent_user_prompt = await message.channel.send(user_prompt)
+        await sent_user_prompt.add_reaction('📃')
+        await sent_user_prompt.add_reaction('⌨️')
+
+    def ask_question(message):
+        pass
+
+    def update_scoreboard():
+        pass
 
     players = []
     while True:
@@ -131,11 +181,12 @@ async def start_game(message):
         except asyncio.TimeoutError:
             break
     
-    if len(players) < 2:
+    if len(players) < 1: #TODO: CHANGE BACK TO 2
         await message.channel.send("Not enough players to start the game.")
         return
     player_names = ', '.join([player.name for player in players])
     await message.channel.send(f"Players in the game: {player_names}")
+    await get_user_prompt(message)
     await ask_question(message)
 
 

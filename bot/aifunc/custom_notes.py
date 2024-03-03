@@ -19,9 +19,9 @@ def notesGptCallFlashcards(notes: str, subject: str, numOfCards: str):
 	load_dotenv()
 	API_KEY = os.getenv('OPENAI_API_KEY')
 	if API_KEY is None:
-    		print("Error: OPENAI_API_KEY is not set.")
+		print("Error: OPENAI_API_KEY is not set.")
 	else:
-    		print("OPENAI_API_KEY:", API_KEY)
+		print("OPENAI_API_KEY:", API_KEY)
 	client = OpenAI(api_key = API_KEY)
 
 	completion = client.chat.completions.create(
@@ -52,9 +52,9 @@ def notesGptCallKahoot(notes, subject, numOfQuestions):
 	load_dotenv()
 	API_KEY = os.getenv('OPENAI_API_KEY')
 	if API_KEY is None:
-    		print("Error: OPENAI_API_KEY is not set.")
+		print("Error: OPENAI_API_KEY is not set.")
 	else:
-    		print("OPENAI_API_KEY:", API_KEY)
+		print("OPENAI_API_KEY:", API_KEY)
 	client = OpenAI(api_key = API_KEY)
 
 	completion = client.chat.completions.create(
